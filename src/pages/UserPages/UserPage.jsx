@@ -5,6 +5,8 @@ import "react-toastify/dist/ReactToastify.css";
 
 const UserPage = () => {
   const [tasks, setTasks] = useState([]);
+  const [statusFilter, setStatusFilter ] = useState(['all']);
+  const [searchTerm, setSearchTerm ] = useState("");
   const [loggedInUser, setLoggedInUser] = useState(""); // ✅ Store logged-in user
   const [newTask, setNewTask] = useState({
     title: "",
@@ -23,6 +25,14 @@ const UserPage = () => {
     const storedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
     setTasks(storedTasks);
   }, []);
+
+  //filter tasks
+    const filteredTasks = tasks.filter((task) => {
+      if (statusFilter === 'completed' && task.progress < 100) return false;
+      if (statusFilter === 'incompleted' && task.progress === 100) return false;
+      if (searchTerm && !task.title.toLowerCase().includes(searchTerm.toLowerCase())) return false;
+      return true;
+  });
 
   // Handle Task Creation
   const handleCreateTask = (e) => {
@@ -149,12 +159,39 @@ const UserPage = () => {
           </form>
         </div>
 
+        
+            <div className="flex gap-4 mb-8">
+              {/*Filter tasks*/}
+              <div className="w-1/2">
+                <label className="block text-sm font-medium text-gray-700">Filter Tasks</label>
+                <select
+                  className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                  value={statusFilter}
+                  onChange={(e) => setStatusFilter( e.target.value)}
+                >
+                  <option value="all">All</option>
+                  <option value="completed">Completed</option>
+                  <option value="incompleted">Incompleted</option>
+                </select>
+              </div>
+              {/*Search bar */}
+              <div className="w-1/2">
+                <label className="block text-sm font-medium text-gray-700">Search Tasks</label>
+                    <input
+                    type="text"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full mt-2 accent-blue-600"
+                  />
+              </div>
+              </div>
+
         {/* Task List */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {tasks.length === 0 ? (
+          {filteredTasks.length === 0 ? (
             <p className="text-gray-600">No tasks created yet. Start by adding a task!</p>
           ) : (
-            tasks.map((task) => (
+            filteredTasks.map((task) => (
               <div key={task.id} className="bg-white shadow-md p-4 rounded-md border-l-4 border-blue-400">
                 <h3 className="text-lg font-semibold">{task.title}</h3>
                 <p className="text-gray-600">{task.description}</p>

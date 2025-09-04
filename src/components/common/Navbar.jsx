@@ -58,6 +58,8 @@ const Navbar = () => {
       localStorage.removeItem(isAdminPortal ? "adminProfile" : "userProfile");
 
       navigate("/");
+      //task 1.3 for dashboard panel
+      // navigate(isAdminPortal ? "/admin/dashboard" : "/user/dashboard");
     } catch (err) {
       console.error("Logout failed:", err);
     }

@@ -101,16 +101,27 @@ function App() {
             <main className="flex-grow">
               <Routes>
                 {/* Public Routes */}
-                <Route path="/" element={<Landing />} />
+                <Route path="/"  element={<Navigate to="/login" replace />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
                 
+                 <Route 
+                  path="/landing" 
+                  element={
+                    <ProtectedRoute>
+                      <Landing />
+                    </ProtectedRoute>
+                  } 
+                />
                 {/* Protected Admin Routes */}
                 <Route 
                   path="/admin/dashboard" 
                   element={
+                    /*task 1.3 for dashboard panel
+                    <ProtectedRoute>
+                     */
                     <ProtectedRoute requiredRole="admin">
                       <Dashboard />
                     </ProtectedRoute>
@@ -216,7 +227,7 @@ function App() {
                 />
                 
                 {/* Fallback Route - Redirect to landing page */}
-                <Route path="*" element={<Navigate to="/" replace />} />
+                <Route path="*" element={<Navigate to="/login" replace />} />
               </Routes>
             </main>
             

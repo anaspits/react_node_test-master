@@ -4,6 +4,7 @@ import AdminStats from "../../components/admin/AdminStats";
 import RecentUsers from "../../components/admin/RecentUsers";
 import PendingTasks from "../../components/admin/PendingTasks";
 import TaskChart from "../../components/admin/TaskAnalytics"; 
+import UserLogPage from "./UserLogPage";
 
 const Dashboard = () => {
   return (
@@ -23,6 +24,9 @@ const Dashboard = () => {
           <RecentUsers className="col-span-2" />
           <PendingTasks />
           <TaskChart />
+        </div>
+        <div className="mt-6">
+          <UserLogPage  />
         </div>
 
         
